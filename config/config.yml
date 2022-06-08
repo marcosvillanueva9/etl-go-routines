@@ -1,0 +1,33 @@
+source:
+  connection:
+     path: ./input/example.csv
+     filetype: csv
+  columns:
+     header: true
+     origin: columnname1,columnname2,columnname3
+     destination: othercolumn1,othercolumn2,calculated1
+destination:
+  connection:
+    path: ./ouput/result.csv
+transform:
+  - connector:
+      name: trim
+      params:
+        column: columnname1
+        ltrim: true
+        rtrim: true
+        destination: othercolumn1
+
+  - connector:
+      name: parse
+      params:
+        type: int
+        default: 0
+        destination: othercolumn2
+      
+  - connector:
+      name: concat
+      params:
+        columns: columnname1,columnname2
+        character: space
+        destination: calculated1
